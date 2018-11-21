@@ -1,0 +1,127 @@
+<html>
+  <header>
+    <title>Rutger Storm</title>
+    <h1>Rutger Storm</h1>
+    <p1>12444049<br></p1>
+    <p2>http://projects.knmi.nl/klimatologie/daggegevens/selectie.cgi<br></p2>
+    <h3>Javascript Intro</h3>
+    <h2>Wind Velocity in de Bilt</h2>
+  </header>
+  <body>
+    <canvas
+      id='graph' width = 900, height = 900>
+    </canvas>
+    <script>
+      // loading the data from the json file into Javascript
+      var fileName = "data.json";
+      var txtFile = new XMLHttpRequest();
+      txtFile.onreadystatechange = function() {
+        if (txtFile.readyState === 4 && txtFile.status == 200) {
+        console.log(JSON.parse(txtFile.responseText));
+        data = JSON.parse(txtFile.responseText)
+
+        // creating an array with all the values from the json file
+        var windVelocity = []
+        keys = Object.keys(data);
+        keys.forEach(function(d){
+          windVelocity.push(data[d]["Wind Velocity"])
+        })
+
+
+      var canvas = document.getElementById('graph');
+      var ctx = canvas.getContext('2d');
+
+      var day = (750/110)
+      var i = 0;
+
+      ctx.beginPath();
+      ctx.font= "20px Georgia";
+      ctx.fillText("Highest Daily Average Wind Velocity in de Bilt", 430, 100);
+
+      ctx.moveTo(50, 500);
+      ctx.lineTo(50, 100);
+      ctx.moveTo(50, 500);
+      ctx.lineTo(800, 500);
+
+      // width of the x axis is 750, the data consists of 110 daily values
+      var day = (750/110)
+
+      // the right values on the axis
+      var i = 0;
+      for(var j = 498; j > 0; j -= 100){
+        ctx.font= "15px Georgia";
+        ctx.fillText(i, 0, j);
+        i +=20
+      }
+
+      for (var x = 25; x < 50; x+=25){
+        for(var y = 100; y < 500; y+=100){
+        ctx.moveTo(x, y);
+        ctx.lineTo(x+25, y);
+      }
+      }
+
+      // the right values on the axis
+      ctx.font= "15px Arial";
+      ctx.fillText("Month", 45, 570);
+      ctx.font= "15px Arial";
+      ctx.fillText("Wind Velocity in 0.1 m/s", 10, 75);
+      ctx.font= "15px Georgia";
+      ctx.fillText("Augustus", (day*1), 540);
+      ctx.fillText("September", (day*31), 540);
+      ctx.moveTo((day*31), 500);
+      ctx.lineTo((day*31), 525);
+
+      ctx.fillText("October", (day*61), 540);
+      ctx.moveTo((day*61), 500);
+      ctx.lineTo((day*61), 525);
+
+      ctx.fillText("November", (day*92), 540);
+      ctx.moveTo((day*92), 500);
+      ctx.lineTo((day*92), 525);
+
+      // drawing the origin of the graph
+      ctx.moveTo(35, 500);
+      ctx.lineTo(50, 500);
+      ctx.moveTo(50, 500);
+      ctx.lineTo(50, 515);
+      ctx.moveTo(799, 500);
+      ctx.lineTo(799, 525);
+
+      // drawing the graph through the following for loop
+      ctx.moveTo(xtransform(0), ytransform(40))
+      for (var i = 1; i < 111; i++){
+        ctx.lineTo(xtransform(i), ytransform(80 - windVelocity[i]))
+      }
+
+      ctx.stroke();
+      ctx.scale(0, 40);
+      ctx.closePath();
+      }
+      }
+
+      function createTransform(domain, range){
+
+      var domain_min = domain[0]
+      var domain_max = domain[1]
+      var range_min = range[0]
+      var range_max = range[1]
+
+      // formulas to calculate the alpha and the beta
+     	var alpha = (range_max - range_min) / (domain_max - domain_min)
+      var beta = range_max - alpha * domain_max
+
+      // returns the function for the linear transformation (y= a * x + b)
+      return function(x){
+        return alpha * x + beta;
+    }
+}
+// transforming the plotted data into the right sizes
+xtransform = createTransform([0, 110], [50, 800]);
+ytransform = createTransform([0,80], [100, 500]);
+
+txtFile.open("GET", fileName);
+txtFile.send();
+    </script>
+  </body>
+</html>
