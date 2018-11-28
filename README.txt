@@ -5,6 +5,7 @@ Link for Javascript Assigment
 https://rutgerstorm.github.io/Data-Processing/Week_3/data.html
 
 Link for D3 Barchart Assignment
+http://localhost:8888/index.html
 
 Studentnumber:
 12444049
