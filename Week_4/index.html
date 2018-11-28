@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <script type="text/javascript" src="d3/d3.min.js"></script>
+        <style type="text/css">
+        body{
+          font: 15px sans-serif;
+        }
+        </style>
+    </head>
+    <body>
+
+        <script type="text/javascript">
+        // Adding info text to the page
+          d3.select("body").append("h3").text("Rutger Storm, 12444049");
+          d3.select("head").append("title").text("Barchart");
+          d3.select("body").append("p").text("Top 10 Countries Renewable Energy Production in 2015");
+          d3.select("body").append("h2").text("Barchart Renewable Energy in Kiloton of Oil Equivalent");
+
+
+          d3.json("data_energy.json").then(function(data)
+          {
+            // Selecting the top 10 countries and their values
+            var energyProduction = []
+            var countries = []
+            keys = Object.keys(data);
+            keys.forEach(function(d){
+            if ((parseInt(data[d]["Energy Production"])) >= data["PAK"]["Energy Production"]	) {
+            energyProduction.push(parseInt(data[d]["Energy Production"]))
+            countries.push(d);
+            }
+            })
+
+
+            //Width and height from the SVG
+            var w = 450;
+            var h = 400;
+            var barPadding = 2;
+            var margin = 50
+
+          // Adjusting the xScale
+          var xScale = d3.scaleLinear()
+                       .domain([0, energyProduction.length])
+                       .range([margin, w - margin]);
+
+          // Adjusting the yScale
+          var yScale = d3.scaleLinear()
+                      .domain([0, d3.max(energyProduction, function(d) { return d; })])
+                      .range([h - margin, 0]);
+
+            // Tooltip variable
+              var tooltip = d3.select('body').append("div")
+                .style("display", "true")
+                .style("fill", "orange")
+                .text("Value in Kiloton of Oil");
+
+
+            //Create an SVG element
+            var svg = d3.select("body")
+              .append("svg")
+              .attr("width", w + 5)
+              .attr("height", h + 5);
+
+              // Create the y axis
+              var yAxis = svg.append('g')
+                  .attr("class", "y axis")
+                  .attr("transform", "translate(50,0)")
+                  .call(d3.axisLeft(yScale));
+
+              // Create the x axis
+              var xAxis = svg.append('g')
+                  .attr("class", "x axis")
+                  .attr("transform", "translate(0," + (h - margin) + ")")
+                  .call(d3.axisBottom(xScale));
+
+            // Unit for the y axis
+            svg.append("text")
+              .attr("x",-350)
+              .attr("y", 25)
+              .attr("transform", "rotate(-90)")
+              .style("text-anchor", "end")
+              .style("font-size", "10px")
+              .text("KTOE", "10px");
+
+            // Values on the x axis
+            svg.append("text")
+              .attr("transform", "translate(450, 380)")
+              .style("text-anchor", "end")
+              .style("font-size", "10px")
+              .text("Countries", "10px");
+
+          // Giving the x axis the country labels
+          svg.selectAll("barLabel")
+             .data(countries)
+             .enter()
+             .append("text")
+             .attr("class", "barLabel")
+             .attr("y", 380)
+             .attr("x", function(d, i) {
+               return xScale(i);
+             })
+             .style("font-size", "10px")
+             .text(function(d){
+               return d;
+             })
+
+            // Create the barchart
+            svg.selectAll("rect")
+               .data(energyProduction)
+               .enter()
+               .append("rect")
+               .attr("y", function(d) {
+                 return yScale(d);
+               })
+               .attr("width", (w - margin) / (energyProduction.length + 1) - barPadding)
+               .attr("height", function(d) {
+                 return h - margin - yScale(d);
+                })
+               .attr("x", function(d, i) {
+                 return xScale(i);
+               })
+               .attr("fill", function(d) {
+                return "rgb(0, 0, " + (d * 0.0008) + ")";
+              })
+              // If cursor is moved over barchart, color changes and value given
+              .on("mouseover", function(d){
+                tooltip.html(d)
+                  .style('left', (d3.eventPageX) + 'px')
+                  .style('top', (d3.eventPageY) + 'px')
+                  .text(d);
+                d3.select(this).style('fill', 'rgb(204, 51, 0)')
+              })
+              .on("mouseout", function(d)
+              {
+                tooltip.transition()
+                d3.select(this).style('fill', "rgb(0, 0, " + (d * 0.0008) + ")")
+
+              })
+    })
+        </script>
+    </body>
+</html>
