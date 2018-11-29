@@ -5,7 +5,7 @@ Link for Javascript Assigment
 https://rutgerstorm.github.io/Data-Processing/Week_3/data.html
 
 Link for D3 Barchart Assignment
-http://localhost:8888/index.html
+https://rutgerstorm.github.io/Data-Processing/Week_4/index.html
 
 Wildcard used for D3 Barchart Assignment
 
