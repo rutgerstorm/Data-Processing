@@ -125,6 +125,7 @@ scatter = function(year){
   return "rgb(" + countryColor[(d[0])] + ")"
 })
 }
+// First shown scatter plot when page is loaded
 scatter(2015)
 
 // Units on both axis plus a title
