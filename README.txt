@@ -8,7 +8,7 @@ Link for D3 Barchart Assignment
 https://rutgerstorm.github.io/Data-Processing/Week_4/index.html
 
 Link for D3 Scatterplot Assigment
-http://0.0.0.0:8888/scatter.html#
+https://rutgerstorm.github.io/Data-Processing/Week_4/scatter.html
 
 
 Wildcard used for D3 Barchart Assignment
