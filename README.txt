@@ -10,6 +10,9 @@ https://rutgerstorm.github.io/Data-Processing/Week_4/index.html
 Link for D3 Scatterplot Assigment
 https://rutgerstorm.github.io/Data-Processing/Week_5/scatter.html
 
+Link for D3 Linkedviews Assigment
+https://rutgerstorm.github.io/Data-Processing/Week_6/linkedviews.html
+
 
 Wildcard used for D3 Barchart Assignment
 
