@@ -13,6 +13,9 @@ https://rutgerstorm.github.io/Data-Processing/Week_5/scatter.html
 Link for D3 Linkedviews Assigment
 https://rutgerstorm.github.io/Data-Processing/Week_6/linkedviews.html
 
+Apologises for the mess in the week_6 folder. D3 was not loaded in correctly, 
+and github was having trouble with deleting the files
+
 
 Wildcard used for D3 Barchart Assignment
 
